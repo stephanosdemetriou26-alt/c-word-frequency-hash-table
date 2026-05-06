@@ -1,2 +1,25 @@
-# c-word-frequency-hash-table
-A text analysis tool in C using a custom Hash Table with chaining to count word frequencies efficiently.
+# C Word Frequency Analyzer (Hash Table Implementation)
+
+Ένα εργαλείο ανάλυσης κειμένου σε γλώσσα **C**, το οποίο υπολογίζει τη συχνότητα εμφάνισης κάθε λέξης χρησιμοποιώντας μια δομή **Hash Table** για μέγιστη ταχύτητα.
+
+## Τεχνικά Χαρακτηριστικά
+* **Hash Table με Chaining**: Χρήση συνδεδεμένων λιστών (linked lists) για τη διαχείριση συγκρούσεων (hash collisions)[cite: 13].
+* **djb2 Hash Function**: Υλοποίηση του αλγορίθμου του Dan Bernstein για αποτελεσματικό hashing συμβολοσειρών[cite: 13].
+* **Text Pre-processing**: Αυτόματη μετατροπή σε πεζά γράμματα και καθαρισμός συμβόλων/στίξης από τις λέξεις[cite: 13].
+* **Memory Management**: Πλήρης διαχείριση δυναμικής μνήμης με καθαρισμό όλων των κόμβων για την αποφυγή memory leaks[cite: 13].
+
+## Πώς Λειτουργεί
+1. Το πρόγραμμα δέχεται ένα κείμενο εισόδου[cite: 13].
+2. Διαχωρίζει το κείμενο σε λέξεις (tokenization)[cite: 13].
+3. Κάθε λέξη περνάει από τη συνάρτηση κατακερματισμού (hash function) και εισάγεται στον πίνακα[cite: 13].
+4. Αν η λέξη υπάρχει ήδη, αυξάνεται ο μετρητής της[cite: 13].
+5. Στο τέλος, εκτυπώνονται τα αποτελέσματα και απελευθερώνεται η μνήμη[cite: 13].
+
+## Τεχνολογίες
+* **C (C99/C11)**[cite: 13]
+* **Standard Libraries**: `stdio.h`, `stdlib.h`, `string.h`, `ctype.h`[cite: 13]
+
+## Οδηγίες Μεταγλώττισης
+Μπορείτε να το τρέξετε σε οποιονδήποτε C compiler (GCC, Clang, MSVC):
+`gcc main.c -o word_analyzer`
+`./word_analyzer`
