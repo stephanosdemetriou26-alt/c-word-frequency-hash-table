@@ -6,19 +6,16 @@
 
 #define TABLE_SIZE 100
 
-/* Node for the linked list (handles hash collisions) */
 typedef struct Node {
     char* word;
     int count;
     struct Node* next;
 } Node;
 
-/* Hash Table structure */
 typedef struct {
     Node** buckets;
 } HashTable;
 
-/* Cross-platform string duplication (since strdup is POSIX, not standard C) */
 char* my_strdup(const char* s) {
     size_t len = strlen(s) + 1;
     char* dup = (char*)malloc(len);
@@ -28,7 +25,6 @@ char* my_strdup(const char* s) {
     return dup;
 }
 
-/* djb2 Hash Function by Dan Bernstein - excellent for strings */
 unsigned int hash_function(const char* word) {
     unsigned long hash = 5381;
     int c;
@@ -38,7 +34,6 @@ unsigned int hash_function(const char* word) {
     return hash % TABLE_SIZE;
 }
 
-/* Initialize the Hash Table */
 HashTable* create_table() {
     HashTable* table = (HashTable*)malloc(sizeof(HashTable));
     if (!table) return NULL;
@@ -51,12 +46,10 @@ HashTable* create_table() {
     return table;
 }
 
-/* Insert a word or increment its count if it already exists */
 void insert_word(HashTable* table, const char* word) {
     unsigned int index = hash_function(word);
     Node* current = table->buckets[index];
 
-    /* Check if word already exists in the chain */
     while (current != NULL) {
         if (strcmp(current->word, word) == 0) {
             current->count++;
@@ -65,7 +58,6 @@ void insert_word(HashTable* table, const char* word) {
         current = current->next;
     }
 
-    /* Word not found, create a new node and prepend it to the bucket */
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node) {
         fprintf(stderr, "Memory allocation failed for new node.\n");
@@ -78,14 +70,12 @@ void insert_word(HashTable* table, const char* word) {
     table->buckets[index] = new_node;
 }
 
-/* Convert string to lowercase for case-insensitive counting */
 void to_lowercase(char* str) {
     for (int i = 0; str[i]; i++) {
         str[i] = tolower((unsigned char)str[i]);
     }
 }
 
-/* Clean up symbols from words (e.g., "hello!" becomes "hello") */
 void clean_word(char* str) {
     char* src = str;
     char* dst = str;
@@ -98,7 +88,6 @@ void clean_word(char* str) {
     *dst = '\0';
 }
 
-/* Display the contents and free memory simultaneously to prevent leaks */
 void print_and_destroy_table(HashTable* table) {
     printf("\n--- Word Frequency Results ---\n");
     for (int i = 0; i < TABLE_SIZE; i++) {
@@ -106,7 +95,6 @@ void print_and_destroy_table(HashTable* table) {
         while (current != NULL) {
             printf("%-15s : %d\n", current->word, current->count);
             
-            /* Free memory as we go */
             Node* temp = current;
             current = current->next;
             free(temp->word);
@@ -128,13 +116,11 @@ int main() {
         return 1;
     }
 
-    /* Hardcoded sample text to ensure it runs out-of-the-box in Visual Studio */
     char sample_text[] = "C is a powerful general-purpose programming language. "
                          "It can be used to develop software like operating systems, "
                          "databases, compilers, and so on. C programming is an "
                          "excellent language to learn to program for beginners.";
 
-    /* Tokenize the string using spaces and punctuation as delimiters */
     char* token = strtok(sample_text, " ,.-");
     
     while (token != NULL) {
